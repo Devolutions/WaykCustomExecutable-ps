@@ -1,0 +1,19 @@
+{
+    "enrollment": {
+        "url": "https://den.onebreach.com",
+        "token": "8ffc6813-af85-440a-aae5-b8a23c3084c3"
+    },
+	"branding": {
+		"embedded": true,
+		"path": "branding.zip"
+	},
+	"config": {
+        "autoUpdateEnabled": false,
+        "autoLaunchOnUserLogon": true
+    },
+	"install": {
+		"embedMsi": false,
+		"architecture": "x86",
+		"startAfterInstall": true
+	}			
+}
