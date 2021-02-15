@@ -1,4 +1,15 @@
 
+$ModuleName = $(Get-Item $PSCommandPath).BaseName
+$Manifest = Import-PowerShellDataFile -Path $(Join-Path $PSScriptRoot "${ModuleName}.psd1")
+
+if (-Not (Test-Path 'variable:global:IsWindows')) {
+    $script:IsWindows = $true; # Windows PowerShell 5.1 or earlier
+}
+
+if ($IsWindows) {
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
+}
+
 function Get-WaykCustomizer
 {
     [CmdletBinding()]
@@ -108,14 +119,11 @@ function New-WaykCustomExecutable
     New-Item -Path $DestinationPath -ItemType 'Directory' -ErrorAction 'SilentlyContinue' | Out-Null
     Set-Content -Path $ConfigFile -Value $ConfigBytes @AsByteStream -Force
 
-    $WaykCustomizer = Get-WaykCustomizer -Architecture:$Architecture -DestinationPath $PSScriptRoot
+    $WaykCustomizer = "$PSScriptRoot/bin/${Architecture}/WaykCustomizer.exe"
+
+    Write-Host $WaykCustomizer
+
     & $WaykCustomizer "-c" $ConfigFile "-o" $OutputFile
 }
 
-New-WaykCustomExecutable `
-    -DenUrl "https://bastion.contoso.com" `
-    -TokenId "8ffc6813-af85-440a-aae5-b8a23c3084c3" `
-    -BrandingFile ".\branding.zip" `
-    -DestinationPath ".\output" `
-    -DestinationName "MyCustomExecutable" `
-    -Architecture "x64"
+Export-ModuleMember -Function @($Manifest.FunctionsToExport)
