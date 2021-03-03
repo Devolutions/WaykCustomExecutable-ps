@@ -54,9 +54,26 @@ function New-WaykCustomExecutable
         [string] $DestinationName = "WaykCustom",
         [ValidateSet("x86","x64")]
         [string] $Architecture = "x64",
-        [bool] $AutoUpdateEnabled = $true,
+        [bool] $StartAfterInstall = $true,
         [bool] $EmbedMsi = $false,
-        [bool] $StartAfterInstall = $true
+
+        [bool] $AnalyticsEnabled = $true,
+        [bool] $AutoUpdateEnabled = $true,
+        [bool] $CrashReporterAutoUpload = $true,
+        [bool] $CrashReporterEnabled = $true,
+
+        [bool] $AutoLaunchOnUserLogon = $false,
+        [bool] $MinimizeToNotificationArea = $false,
+        [bool] $ShowMainWindowOnLaunch = $true,
+        [string] $FriendlyName,
+        [string] $Language,
+
+        [bool] $AllowNoPassword = $true,
+        [bool] $AllowPersonalPassword = $true,
+        [bool] $AllowSystemAuth = $true,
+        [bool] $GeneratedPasswordAutoReset = $true,
+        [string] $GeneratedPasswordCharSet,
+        [bool] $GeneratedPasswordLength
     )
     
     if ($TokenId) {
@@ -95,8 +112,30 @@ function New-WaykCustomExecutable
         }
     }
 
-    $config = [PSCustomObject]@{
-        autoUpdateEnabled = $AutoUpdateEnabled
+    $config = [PSCustomObject]@{}
+
+    @(
+        'AnalyticsEnabled',
+        'AutoUpdateEnabled',
+        'CrashReporterAutoUpload',
+        'CrashReporterEnabled',
+        'AutoLaunchOnUserLogon',
+        'MinimizeToNotificationArea',
+        'ShowMainWindowOnLaunch',
+        'FriendlyName',
+        'Language',
+        'AllowNoPassword',
+        'AllowPersonalPassword',
+        'AllowSystemAuth',
+        'GeneratedPasswordAutoReset',
+        'GeneratedPasswordCharSet',
+        'GeneratedPasswordLength'
+    ) | ForEach-Object {
+        $PropertyName = $_
+        if ($PSBoundParameters.ContainsKey($PropertyName)) {
+            $PropertyValue = $PSBoundParameters[$PropertyName]
+            $config | Add-Member -Type NoteProperty -Name $PropertyName -Value $PropertyValue
+        }
     }
 
     $install = [PSCustomObject]@{
