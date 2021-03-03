@@ -28,7 +28,11 @@ New-WaykCustomExecutable `
     -DestinationPath ".\output" `
     -DestinationName "MyCustomExecutable" `
     -Architecture "x64" `
-    -EmbedMsi $false `
+    -EmbedMsi $true `
+    -AutoUpdateEnabled $true `
+    -AutoLaunchOnUserLogon $true `
+    -ShowMainWindowOnLaunch $true `
+    -Language 'en'
 ```
 
 The `-DestinationPath` is where all output files are created, and the `-DestinationName` is the base name for output files. For the above command, the final custom executable will be ".\output\MyCustomExecutable.exe".
