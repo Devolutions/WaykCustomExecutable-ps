@@ -29,6 +29,7 @@ New-WaykCustomExecutable `
     -DestinationName "MyCustomExecutable" `
     -Architecture "x64" `
     -EmbedMsi $true `
+    -Quiet $true `
     -AutoUpdateEnabled $true `
     -AutoLaunchOnUserLogon $true `
     -ShowMainWindowOnLaunch $true `
@@ -38,3 +39,5 @@ New-WaykCustomExecutable `
 The `-DestinationPath` is where all output files are created, and the `-DestinationName` is the base name for output files. For the above command, the final custom executable will be ".\output\MyCustomExecutable.exe".
 
 The `-EmbedMsi` option tells the custom patcher to include the MSI inside the executable, or download the latest version of the MSI on-the-fly. Embedding the MSI inside the executable means a larger file size, and the need to update the executable whenever a new version of the Wayk Agent comes out.
+
+The `-Quiet` option tells the MSI to install "quietly" (no user interface is shown). Otherwise, the installation is "passive" - the MSI user interface is shown but no user interaction is possible.
