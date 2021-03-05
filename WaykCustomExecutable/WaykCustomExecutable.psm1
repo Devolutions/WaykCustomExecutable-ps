@@ -20,7 +20,7 @@ function Get-WaykCustomizer
         [string] $Architecture = "x64"
     )
 
-    $Version = "0.1.2"
+    $Version = "0.1.4"
     $WebClient = [System.Net.WebClient]::new()
     $DownloadBaseUrl = 'https://github.com/Devolutions/wayk-cse/releases/download'
     
@@ -51,11 +51,21 @@ function New-WaykCustomExecutable
         [string] $BrandingFile,
         [Parameter(Mandatory=$true)]
         [string] $DestinationPath,
-        [string] $DestinationName = "WaykCustom",
+        [ValidateScript({
+            if( $_.StartsWith("wayk", "CurrentCultureIgnoreCase"))
+            {
+                throw 'DestinationName may not start with "wayk"'
+            }
+            else {
+                $true
+            }
+        })]
+        [string] $DestinationName = "CustomWayk",
         [ValidateSet("x86","x64")]
         [string] $Architecture = "x64",
         [bool] $StartAfterInstall = $true,
         [bool] $EmbedMsi = $false,
+        [bool] $Quiet = $false,
 
         [bool] $AnalyticsEnabled = $true,
         [bool] $AutoUpdateEnabled = $true,
@@ -140,6 +150,7 @@ function New-WaykCustomExecutable
 
     $install = [PSCustomObject]@{
         embedMsi = $EmbedMsi
+        quiet = $Quiet
         architecture = $Architecture
         startAfterInstall = $StartAfterInstall
     }
