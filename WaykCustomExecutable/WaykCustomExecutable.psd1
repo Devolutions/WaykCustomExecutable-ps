@@ -12,7 +12,7 @@
 RootModule = 'WaykCustomExecutable.psm1'
 
 # Version number of this module.
-ModuleVersion = '2021.1.2'
+ModuleVersion = '2021.1.3'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop', 'Core'

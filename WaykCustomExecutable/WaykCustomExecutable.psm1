@@ -20,7 +20,7 @@ function Get-WaykCustomizer
         [string] $Architecture = "x64"
     )
 
-    $Version = "0.1.4"
+    $Version = "0.1.5"
     $WebClient = [System.Net.WebClient]::new()
     $DownloadBaseUrl = 'https://github.com/Devolutions/wayk-cse/releases/download'
     
