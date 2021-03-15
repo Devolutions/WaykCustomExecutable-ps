@@ -83,7 +83,7 @@ function New-WaykCustomExecutable
         [bool] $AllowSystemAuth = $true,
         [bool] $GeneratedPasswordAutoReset = $true,
         [string] $GeneratedPasswordCharSet,
-        [bool] $GeneratedPasswordLength
+        [int32] $GeneratedPasswordLength
     )
     
     if ($TokenId) {
